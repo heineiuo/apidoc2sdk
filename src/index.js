@@ -53,6 +53,10 @@ const templateApi = (api) => {
     return arr.join(`\r\n`)
   }
 
+  const getMethod = () => {
+    return api.type == 'GET'?'GETJSON':'POSTRawJSON'
+  }
+
   return `/**
  * @name ${api.name} 
  * @title ${api.title}
@@ -68,7 +72,7 @@ ${renderSuccess()}
 
 export const ${api.name} = (${renderParams()}) => {
   const url = \`\${API_HOST}${api.url}\`
-  return GETJSON(MOCK?\`\${MOCK_JSON_PATH}/${api.name}.json\`:url, {
+  return ${getMethod()}(MOCK?\`\${MOCK_JSON_PATH}/${api.name}.json\`:url, {
     ${renderParams()}
   })
 }
